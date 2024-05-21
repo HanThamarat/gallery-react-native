@@ -11,10 +11,10 @@ const tabData = [
         nameI: 'Home',
     },
     {
-        title: 'Bookmark',
+        title: 'Maps',
         tabName: 'bookmark',
         icons: icons.bookmark,
-        nameI: 'Bookmark',
+        nameI: 'Maps',
     },
     {
         title: 'Create',
