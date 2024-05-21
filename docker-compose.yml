@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0.19
+    container_name: aora_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: aoraDB
+      MYSQL_USER: HanThamarat
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3308:3306"
+    volumes:
+      - "./.docker/db:/var/lib/mysql:rw"
+    networks:
+      - aora_network
+
+  # app:
+  #   depends_on:
+  #     - db
+  #   build: ./aora-app
+  #   restart: unless-stopped
+  #   env_file: ./.env
+  #   ports:
+  #     - 3000:3000
+  #     - 9229:9229
+  #   environment:
+  #     - DATABASE_USER=root
+  #     - DATABASE_HOST=db
+  #     - DATABASE_PASSWORD=root
+  #     - DATABASE_NAME=aoraDB
+  #     - DATABASE_PORT=3306
+  #   stdin_open: true
+  #   tty: true
+  #   networks:
+  #     - aora_network
+
+  # redis:
+  #   image: redis:5-alpine
+  #   expose:
+  #     - 6379
+  # app:
+  #   build: .
+  #   volumes:
+  #     - .:/usr/src/app/
+  #     - dependencies:/usr/src/app/node_modules
+  #   working_dir: /usr/src/app
+  #   depends_on:
+  #     - redis
+  #     - db
+  #   environment:
+  #     - DATABASE_USER = HanThamarat
+  #     - DATABASE_HOST = db
+  #     - DATABASE_PASSWORD = 1234
+  #     - DATABASE_NAME = aoraDB
+  #     - DATABASE_PORT = 3306
+  #   ports:
+  #     - 3000:3000
+  #     - 9229:9229
+  #   command: npm run dev
+
+
+volumes:
+  dependencies:
+
+networks:
+  aora_network:
+    driver: bridge
