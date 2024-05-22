@@ -7,6 +7,7 @@ import baseURL from '../api/baseUrl';
 
 const Home = () => {
   const [ Userdata, setUserdata ] = useState([]);
+  const [ Gallery, setGallery ] = useState([]);
 
   const Data = [
     {
@@ -38,8 +39,22 @@ const Home = () => {
     }
   };
 
+  const getGallery = async() => {
+    try {
+      const response = await axios.get(`${baseURL}/allGallery`);
+      
+      if (response.status === 200) {
+        console.log(response.data['body']);
+        setGallery(response.data['body']);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getuserData();
+    getGallery();
   },[])
 
   const Item = ({title}) => {
@@ -63,11 +78,12 @@ const Home = () => {
                 pagingEnabled={true}
                 showsHorizontalScrollIndicator={false}
                 className="w-full my-2"
-                data={Data}
+                data={Gallery}
                 // renderItem={({item}) => <Item title={item.title} />}
                 renderItem={({item}) => (
                   <View className="bg-secondary-100 w-[300px] mx-2 py-5 px-4 rounded-md my-2 h-[150px]">
                     <Text className="text-white text-2xl font-psemibold flex-1 justify-center">{item.title}</Text>
+                    <Text className="text-sm font-pregular">{item.sumary}</Text>
                   </View>
                 )}
                 keyExtractor={item => item.id}
