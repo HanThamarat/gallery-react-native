@@ -24,9 +24,9 @@ const HomeScreen = () => {
    <SafeAreaView className="bg-primary h-full">
     <ScrollView contentContainerStyle={{ height: '100%' }}>
         <View className="w-full justify-center items-center min-h-[85vh] px-4">
-            <Image source={images.logo} className="w-[130px] h-[84px]" resizeMode='contain' />
+            <Text className="text-secondary-100 text-4xl font-pbold">Gallery</Text>
             <Image source={images.cards} className="w-[300px] h-[300px]" resizeMode='contain' />
-            <Text className="text-white text-2xl font-bold">Enjoy for Aora App</Text>
+            <Text className="text-white text-2xl font-bold">Enjoy for Gallery App</Text>
 
             <CustomButton 
                 title="Continue with email"  

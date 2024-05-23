@@ -41,7 +41,7 @@ const SignInScreen = () => {
     <SafeAreaView className="bg-primary h-full">
             <ScrollView>
                 <View className="w-full justify-center min-h-[85vh] px-4 my-6">
-                    <Image source={images.logo} className="w-[115px] h-[35px]" resizeMode='contain' />
+                    <Text className="text-secondary-100 text-4xl font-pbold">Gallery</Text>
                     <Text className="text-2xl font-bold text-white mt-5">SingIn for Aora</Text>
 
                     <FormField 

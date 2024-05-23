@@ -30,7 +30,7 @@ const SignUpScreen = () => {
            console.log(response.status);
            console.log(response.data);
            if (response.status == 201) {
-                const UserjsonValue = JSON.stringify(Form);
+                const UserjsonValue = JSON.stringify(response.data['body'].insertId);
                 await AsyncStorage.setItem('userData', UserjsonValue);
                 Alert.alert('success', 'create user successfully')
                 router.navigate('/home');
@@ -46,7 +46,7 @@ const SignUpScreen = () => {
     <SafeAreaView className="bg-primary h-full">
             <ScrollView>
                 <View className="w-full justify-center min-h-[85vh] px-4 my-6">
-                    <Image source={images.logo} className="w-[115px] h-[35px]" resizeMode='contain' />
+                <Text className="text-secondary-100 text-4xl font-pbold">Gallery</Text>
                     <Text className="text-2xl font-bold text-white mt-5">SingUp for Aora</Text>
 
                     <FormField 
