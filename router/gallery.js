@@ -26,7 +26,7 @@ router.post('/createGallery', async (req, res) => {
 
 router.get('/allGallery', async (req, res) => {
     try {
-        const [ results ] = await conn.query("SELECT title, sumary, username, email FROM gallery INNER JOIN users ON gallery.userId = users.id",
+        const [ results ] = await conn.query(`SELECT title, sumary, username, email FROM gallery INNER JOIN users ON gallery.userId = users.id`,
             [],
             (err, result, field) => {
                 if (err) {
@@ -38,6 +38,27 @@ router.get('/allGallery', async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             message: 'get allGallery faild',
+            err: error
+        });
+    }
+});
+
+router.get('/getCountDate', async(req, res) => {
+    try {
+        const [ results ] = await conn.query(`SELECT title, sumary, userId, email, username,DATEDIFF(DATE_FORMAT(CURRENT_DATE(), '%Y-%m-%d'), DATE_FORMAT(createAt, '%Y-%m-%d')) AS countDate FROM gallery 
+                                            INNER JOIN users ON gallery.userId = users.id
+                                            WHERE DATEDIFF(DATE_FORMAT(CURRENT_DATE(), '%Y-%m-%d'), DATE_FORMAT(createAt, '%Y-%m-%d')) <= 1 `,
+            [],
+            (err, result, field) => {
+                if (err) {
+                    throw 'faild form database'
+                }
+            });
+
+            return res.status(200).json({ massage: 'getdata successfully', body: results });
+    } catch (error) {
+        return res.status(400).json({
+            massage: 'getCountDate faild',
             err: error
         });
     }
