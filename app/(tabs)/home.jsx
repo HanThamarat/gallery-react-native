@@ -8,6 +8,7 @@ import baseURL from '../api/baseUrl';
 const Home = () => {
   const [ Userdata, setUserdata ] = useState([]);
   const [ Gallery, setGallery ] = useState([]);
+  const [ GalleryDate, setGalleryDate ] = useState([]);
 
   const Data = [
     {
@@ -23,6 +24,18 @@ const Home = () => {
       title: 'Third Item',
     },
   ];
+
+  const GalCount = async() => {
+    try {
+      const response = await axios.get(`${baseURL}/getCountDate`);
+
+      if (response.status === 200) {
+        setGalleryDate(response.data['body']);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getuserData = async() => {
     try {
@@ -44,7 +57,6 @@ const Home = () => {
       const response = await axios.get(`${baseURL}/allGallery`);
       
       if (response.status === 200) {
-        console.log(response.data['body']);
         setGallery(response.data['body']);
       }
     } catch (error) {
@@ -52,9 +64,11 @@ const Home = () => {
     }
   };
 
+
   useEffect(() => {
     getuserData();
     getGallery();
+    GalCount();
   },[])
 
   const Item = ({title}) => {
@@ -72,35 +86,37 @@ const Home = () => {
                 <Text className="text-white text-xl font-psemibold">{Userdata.username}</Text>
             </View>
             <View className="w-full mt-3">
-              <Text className="text-white text-2xl font-pmedium">Card List</Text>
+              <Text className="text-white text-2xl font-pmedium">Today Galler</Text>
               <FlatList 
                 horizontal
                 pagingEnabled={true}
                 showsHorizontalScrollIndicator={false}
                 className="w-full my-2"
-                data={Gallery}
+                data={GalleryDate}
                 // renderItem={({item}) => <Item title={item.title} />}
                 renderItem={({item}) => (
                   <View className="bg-secondary-100 w-[300px] mx-2 py-5 px-4 rounded-md my-2 h-[150px]">
                     <Text className="text-white text-2xl font-psemibold flex-1 justify-center">{item.title}</Text>
-                    <Text className="text-sm font-pregular">{item.sumary}</Text>
+                    <Text className="text-sm text-white font-pregular">{item.sumary}</Text>
                   </View>
                 )}
                 keyExtractor={item => item.id}
               />
             </View>
             <View className="w-full mt-3">
-                <Text className="text-white text-2xl font-pmedium">GirdLayout</Text>
+                <Text className="text-white text-2xl font-pmedium">All Gallery</Text>
                 <View style={styles.container}>
-                  <View style={[styles.box, {backgroundColor: 'orangered'}]} />
-                  <View style={[styles.box, {backgroundColor: 'orange'}]} />
-                  <View style={[styles.box, {backgroundColor: 'mediumseagreen'}]} />
-                  <View style={[styles.box, {backgroundColor: 'deepskyblue'}]} />
-                  <View style={[styles.box, {backgroundColor: 'mediumturquoise'}]} />
-                  <View style={[styles.box, {backgroundColor: 'mediumslateblue'}]} />
-                  <View style={[styles.box, {backgroundColor: 'purple'}]} />
-                  <View style={[styles.box, {backgroundColor: 'purple'}]} />
-                  <View style={[styles.box, {backgroundColor: 'purple'}]} />
+                  <FlatList
+                    className="w-full my-2"
+                    data={Gallery}
+                    renderItem={({item}) => (
+                      <View className="bg-secondary-200 px-4 py-4 w-full rounded-md my-2">
+                        <Text className="text-xl font-pmedium text-white">{item.title}</Text>
+                        <Text className="text-sm font-pregular text-white"><Text className="text-primary">Create post by</Text> {item.username}</Text>
+                        <Text className="text-sm font-pregular text-white"><Text className="text-primary">Sumary : </Text>{item.sumary}</Text>
+                      </View>
+                    )}
+                   />
                 </View>
             </View>
         </MasterLayout>
