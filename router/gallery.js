@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     },
     filename: function(req, file, callback) {
         const hashImage = bcrypt.hashSync(file.originalname, 10);
-        callback(null, `${file.fieldname}_${Date.now()}_${hashImage}`)
+        callback(null, `${Date.now()}_${hashImage}_${file.originalname}`)
     },
 });
 
