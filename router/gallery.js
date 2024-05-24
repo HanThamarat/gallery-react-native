@@ -1,14 +1,29 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const conn = require('../configs/mysqlConn');
+const bcrypt = require('bcrypt');
 
-router.post('/createGallery', async (req, res) => {
+const storage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, './img/gallery-image')
+    },
+    filename: function(req, file, callback) {
+        const hashImage = bcrypt.hashSync(file.originalname, 10);
+        callback(null, `${file.fieldname}_${Date.now()}_${hashImage}`)
+    },
+});
+
+const upload = multer({ storage })
+
+router.post('/createGallery', upload.single('photo'), async (req, res) => {
     try {
         const { title, sumary, userId } = req.body;
+        const fileName = req.file.filename;
         const today = new Date();
 
-        const [ results ] = await conn.execute("INSERT INTO gallery(title, sumary, userId, createAt) VALUES(?,?,?,?)",
-        [ title, sumary, userId, today ],
+        const [ results ] = await conn.execute("INSERT INTO gallery(title, sumary, userId, createAt, image) VALUES(?,?,?,?,?)",
+        [ title, sumary, userId, today, fileName ],
         (err, result, field) => {
             if (err) {
                 throw 'create gallery faild from database'

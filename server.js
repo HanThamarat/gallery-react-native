@@ -3,12 +3,14 @@ const cors = require('cors');
 const { readdirSync } = require('fs');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
 
 /**
  * @swagger
@@ -45,6 +47,7 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use('/api-aora', swaggerUi.serve,  swaggerUi.setup(swaggerSpec));
+app.use('/gallery', express.static('./img/galleryImage'));
 
 app.listen(port, () => {
     return console.log(`server runing port ${port}`);
