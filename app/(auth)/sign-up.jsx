@@ -48,7 +48,6 @@ const SignUpScreen = () => {
                 <View className="w-full justify-center min-h-[85vh] px-4 my-6">
                 <Text className="text-secondary-100 text-4xl font-pbold">Gallery</Text>
                     <Text className="text-2xl font-bold text-white mt-5">SingUp for Aora</Text>
-
                     <FormField 
                         title="Username"
                         value={Form.username}
@@ -73,12 +72,11 @@ const SignUpScreen = () => {
                     />
 
                     <CustomButton 
-                        title="Sign Un" 
+                        title="Sign Up" 
                         handlePress={handleSubmit}
                         containerStyles="mt-7"
                         isLoading={isSubmiting}
                     />
-
                     <View className="flex-1 items-center pt-4">
                         <Text className="text-white text-lg font-pregular">Have an accout? <Link href="/sign-in" className='text-blue-500 text-lg font-pregular'>Sign In</Link></Text>
                     </View>
