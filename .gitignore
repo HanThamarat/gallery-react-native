@@ -1,4 +1,4 @@
 .env
 node_modules
 .docker/db/
-/img/gallery-image**/** 
+/img/gallery-image/** 
